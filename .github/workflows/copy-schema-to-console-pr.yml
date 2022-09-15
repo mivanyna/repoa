@@ -43,7 +43,7 @@ jobs:
           echo "push"
           git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
           echo "create PR"
-          gh pr create -B main -H "${{ github.ref_name }}_${{ github.run_number }}" --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+          gh pr create -B main -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
