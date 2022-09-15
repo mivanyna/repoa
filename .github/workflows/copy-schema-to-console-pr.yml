@@ -55,7 +55,7 @@ jobs:
         with:
           source-directory: 'target'
           destination-github-username: 'mivanyna'
-          destination-repository-name: ${{ env.targetRepo }}
+          destination-repository-name: 'repob'
           user-email: "${{ github.event.commits[0].committer.email }}"
           target-branch: main
       
