@@ -2,9 +2,9 @@
 
 name: Copy schema
 env:
-  branchId: "main"
-  repofrom: ""
-  repoTo: "mivanyna/repob"
+  targetBaseBranch: "main"
+  fileName: "file"
+  targetRepo: "mivanyna/repob"
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -29,19 +29,19 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: |
-          git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.repoTo }} target
-          rm target/folderb/file*.json
-          cp "file.json" "./target/folderb/file_${{ github.sha }}.json"
+          git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.targetRepo }} target
+          rm target/folderb/${{ env.fileName }}*.json
+          
+          cp "file.json" "./target/folderb/${{ env.fileName }}_${{ github.sha }}.json"
+          
           cd target
-          echo "${{ github.event.commits[0].committer.email }}"
-          echo "${{ github.event.commits[0].committer.name }}"
           git config --local user.email "${{ github.event.commits[0].committer.email }}"
           git config --local user.name "${{ github.event.commits[0].committer.name }}"
-          git checkout ${{ env.branchId }}
+          git checkout ${{ env.targetBaseBranch }}
           git pull
           git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
 
-          printf "const file = require('./file_${{ github.sha }}.json')\nexport default file\n" > json.ts
+          printf "const file = require('./${{ env.fileName }}_${{ github.sha }}.json')\nexport default file\n" > json.ts
 
           echo ${{ github.ref_name }}
           git add .
@@ -49,7 +49,7 @@ jobs:
           echo "push"
           git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
           echo "create PR"
-          gh pr create -B "${{ env.branchId }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
+          gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
