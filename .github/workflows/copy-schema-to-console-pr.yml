@@ -36,7 +36,7 @@ jobs:
           echo ${{ github.ref_name }}
           git add .
           git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/project"
-          $ git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
+          git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
