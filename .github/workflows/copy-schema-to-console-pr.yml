@@ -29,16 +29,16 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: |
-          git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/mivanyna/repob target
+          git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.repoTo }} target
           rm target/folderb/file*.json
-          echo ${{ env.repoTo }}
-          echo ${{ env.branchId }}
           cp "file.json" "./target/folderb/file_${{ github.sha }}.json"
           cd target
           echo "${{ github.event.commits[0].committer.email }}"
           echo "${{ github.event.commits[0].committer.name }}"
           git config --local user.email "${{ github.event.commits[0].committer.email }}"
           git config --local user.name "${{ github.event.commits[0].committer.name }}"
+          git checkout ${{ env.branchId }}
+          git pull
           git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
 
           printf "const file = require('./file_${{ github.sha }}.json')\nexport default file\n" > json.ts
@@ -49,7 +49,7 @@ jobs:
           echo "push"
           git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
           echo "create PR"
-          gh pr create -B main -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
+          gh pr create -B "${{ env.branchId }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
