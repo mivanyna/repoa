@@ -38,7 +38,9 @@ jobs:
           echo ${{ github.ref_name }}
           git add .
           git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/project"
+          echo "push"
           git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
+          echo "create PR"
           gh pr create -B main -H "${{ github.ref_name }}_${{ github.run_number }}" --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
