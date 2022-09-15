@@ -28,7 +28,7 @@ jobs:
         run: |
           git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/mivanyna/repob target
           cp "file.json" "./target/folderb/file${{ github.sha }}.json"
-          cd target/
+          cd target/repob
           git add .
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
