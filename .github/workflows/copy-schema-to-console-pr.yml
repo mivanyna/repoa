@@ -1,6 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 
 name: Copy schema
+env:
+  branchId: "main"
+  repofrom: ""
+  repoTo: "mivanyna/repob"
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
@@ -27,6 +31,8 @@ jobs:
         run: |
           git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/mivanyna/repob target
           rm target/folderb/file*.json
+          echo ${{ env.repoTo }}
+          echo ${{ env.branchId }}
           cp "file.json" "./target/folderb/file_${{ github.sha }}.json"
           cd target
           echo "${{ github.event.commits[0].committer.email }}"
