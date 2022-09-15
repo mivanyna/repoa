@@ -29,8 +29,8 @@ jobs:
           rm target/folderb/file*.json
           cp "file.json" "./target/folderb/file_${{ github.sha }}.json"
           cd target
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "mivanyna@gmail.com"
+          git config --local user.name "mivanyna"
           git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
 
           printf "const file = require('./file_${{ github.sha }}.json')\nexport default file\n" > json.ts
