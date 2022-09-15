@@ -31,6 +31,8 @@ jobs:
           cp "file.json" "./target/folderb/file${{ github.sha }}.json"
           cd target
           git add .
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/project"
           git push target main
         env:
