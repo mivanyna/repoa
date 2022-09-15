@@ -36,13 +36,8 @@ jobs:
           echo ${{ github.ref_name }}
           git add .
           git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/project"
+          git remote add origin https://github.com/user/repo.git
+          $ git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: create pull request
-        run: gh pr create -B main -H "${{ github.ref_name }}_${{ github.run_number }}" --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
