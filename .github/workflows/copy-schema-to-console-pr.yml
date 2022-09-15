@@ -46,13 +46,13 @@ jobs:
           git checkout ${{ env.targetBaseBranch }}
           echo ${{ github.ref_name }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
           path: target
           branch: "${{ github.ref_name }}_${{ github.run_number }}"
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          token: ${{ secrets.PAT }}
           author: "${{ github.event.commits[0].committer.name }} <${{ github.event.commits[0].committer.email }}>"
           commit-message: "${{ github.event.commits[0].message }}"
           committer: "${{ github.event.commits[0].committer.name }} <${{ github.event.commits[0].committer.email }}>"
