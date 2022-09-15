@@ -44,16 +44,7 @@ jobs:
           git config --local user.email "${{ github.event.commits[0].committer.email }}"
           git config --local user.name "${{ github.event.commits[0].committer.name }}"
           git checkout ${{ env.targetBaseBranch }}
-          # git pull
-          # git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
-
           echo ${{ github.ref_name }}
-          # git add .
-          # git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/project"
-          # echo "push"
-          # git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
-          # echo "create PR"
-          # gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Pull Request
