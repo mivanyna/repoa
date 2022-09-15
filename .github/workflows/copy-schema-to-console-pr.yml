@@ -28,13 +28,11 @@ jobs:
         run: |
           git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/mivanyna/repob target
           rm target/folderb/file*.json
-          cp "file.json" "./target/folderb/file${{ github.sha }}.json"
+          cp "file.json" "./target/folderb/file_${{ github.sha }}.json"
           cd target
           git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
           echo ${{ github.ref_name }}
           git add .
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
           git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/project"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
