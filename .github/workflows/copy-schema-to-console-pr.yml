@@ -30,7 +30,9 @@ jobs:
           rm target/folderb/file*.json
           cp "file.json" "./target/folderb/file${{ github.sha }}.json"
           cd target
-          cd folderb
+          git stash
+          git pull
+          git stash apply
           git add .
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
