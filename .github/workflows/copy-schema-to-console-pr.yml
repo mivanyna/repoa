@@ -45,8 +45,8 @@ jobs:
           git config --local user.name "${{ github.event.commits[0].committer.name }}"
           git checkout ${{ env.targetBaseBranch }}
           echo ${{ github.ref_name }}
-           # git pull
-          # git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
+          git pull
+          git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
 
           echo ${{ github.ref_name }}
           git add .
