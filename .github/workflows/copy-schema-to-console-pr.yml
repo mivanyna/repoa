@@ -52,7 +52,7 @@ jobs:
         with:
           path: target
           token: ${{ secrets.GITHUB_TOKEN }}
-          author: '${{ github.event.commits[0].committer.name }} <${{ github.event.commits[0].committer.email }}'
+          author: '${{ github.event.commits[0].committer.name }} <${{ github.event.commits[0].committer.email }}>'
           commit-message: "${{ github.event.commits[0].message }}"
           committer: ${{ github.event.commits[0].committer.email }}
           body: |
