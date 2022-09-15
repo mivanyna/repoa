@@ -29,7 +29,9 @@ jobs:
           rm target/folderb/file*.json
           cp "file.json" "./target/folderb/file_${{ github.sha }}.json"
           cd target
-          git config --local user.email "mivanyna@gmail.com"
+          echo "${{ github.event.commits[0].committer.email }}"
+          echo "${{ github.event.commits[0].committer.name }}"
+          git config --local user.email "${{ github.event.commits[0].committer.email }}"
           git config --local user.name "mivanyna"
           git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
 
@@ -39,7 +41,7 @@ jobs:
           git add .
           git diff-index --quiet HEAD || git commit -m "Automatic publish from github.com/project"
           echo "push"
-          git push -u origin ${{ github.ref_name }}_${{ github.run_number }}
+          git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
           echo "create PR"
           gh pr create -B main -H "${{ github.ref_name }}_${{ github.run_number }}" --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
         env:
