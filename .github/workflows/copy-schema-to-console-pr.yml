@@ -29,7 +29,9 @@ jobs:
       - name: Copy config to cms and create PR
         run: |
           echo "pull target repository"
-          git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.targetRepo }} target
+          # https://$DESTINATION_REPOSITORY_USERNAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git
+          
+          git clone https://mivanyna:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.targetRepo }}.git target
           rm target/${{ env.targetPathToFile }}/${{ env.fileName }}*.json
           
           echo "copy and rename file to target folder"
@@ -51,20 +53,13 @@ jobs:
 
           git add .
           git diff-index --quiet HEAD || git commit -m "Automatic copy app config schema"          
+           echo "push changes"
+          git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
+          echo "create PR"
+          gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
       
-      - name: Pushes to another repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-        with:
-          source-directory: target/
-          destination-github-username: 'mivanyna'
-          destination-repository-name: 'repob'
-          user-email: ${{ github.event.commits[0].committer.email }}
-          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
-          target-branch: main
+      
 
       
