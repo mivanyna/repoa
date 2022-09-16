@@ -9,7 +9,7 @@ env:
 on:
   push:
     paths:
-      - '${{ env.fileName }}.json'
+      - 'file.json'
     branches: [ "main" ]
 permissions:
   contents: write
