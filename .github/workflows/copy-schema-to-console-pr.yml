@@ -37,7 +37,8 @@ jobs:
           cd target
           
           echo "update schema export file"
-          printf "const file = require('./${{ env.fileName }}_${{ github.sha }}.json')\nexport default file\n" > ${{ env.targetPathToFile }}/json.ts
+          printf "const file = require('./${{ env.fileName }}_${{ github.sha }}.json')
+          export default file\n" > ${{ env.targetPathToFile }}/json.ts
           
           git status
 
