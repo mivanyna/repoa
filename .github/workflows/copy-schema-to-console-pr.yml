@@ -29,7 +29,7 @@ jobs:
       - name: Copy config to cms and create PR
         run: |
           echo "pull target repository"
-          git clone https://.:${{ secrets.SSH_DEPLOY_KEY }}@github.com/${{ env.targetRepo }} target
+          git clone https://.:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.targetRepo }} target
           rm target/${{ env.targetPathToFile }}/${{ env.fileName }}*.json
           
           echo "copy and rename file to target folder"
