@@ -31,7 +31,7 @@ jobs:
           echo "pull target repository"
           # https://$DESTINATION_REPOSITORY_USERNAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git
           
-          git clone https://mivanyna:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.targetRepo }}.git target
+          git clone https://mivanyna:${{ secrets.GITHUB_TOKEN }}@github.com/${{ env.targetRepo }}.git target
           rm target/${{ env.targetPathToFile }}/${{ env.fileName }}*.json
           
           echo "copy and rename file to target folder"
@@ -58,7 +58,7 @@ jobs:
           echo "create PR"
           gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
-          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       
 
