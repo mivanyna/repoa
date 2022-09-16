@@ -28,7 +28,7 @@ jobs:
         run: |
           echo "pull target repository"
 
-          git clone https://${{ env.targetUserName }}:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{targetUserName}}/${{ env.targetRepo }}.git target
+          git clone https://${{ env.targetUserName }}:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.targetUserName }}/${{ env.targetRepo }}.git target
           rm target/${{ env.targetPathToFile }}/${{ env.fileName }}*.json
           
           echo "copy and rename file to target folder"
