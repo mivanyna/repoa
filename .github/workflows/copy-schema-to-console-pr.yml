@@ -50,12 +50,21 @@ jobs:
           git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
 
           git add .
-          git diff-index --quiet HEAD || git commit -m "Automatic copy app config schema"
-          echo "push changes"
-          git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
-          echo "create PR"
-          gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
+          git diff-index --quiet HEAD || git commit -m "Automatic copy app config schema"          
         env:
-          GITHUB_TOKEN: ${{ secrets.SSH_DEPLOY_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Pushes to another repository
+        id: push_directory
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: target/
+          destination-github-username: 'mivanyna'
+          destination-repository-name: 'repob'
+          user-email: ${{ github.event.commits[0].committer.email }}
+          commit-message: See ORIGIN_COMMIT from $GITHUB_REF
+          target-branch: main
 
       
