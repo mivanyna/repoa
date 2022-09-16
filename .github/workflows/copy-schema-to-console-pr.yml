@@ -42,6 +42,8 @@ jobs:
           cd target
           printf "const file = require('./${{ env.fileName }}_${{ github.sha }}.json')\nexport default file\n" > ${{ env.targetPathToFile }}/json.ts
           
+          git status
+          
           git config --local user.email "${{ github.event.commits[0].committer.email }}"
           git config --local user.name "${{ github.event.commits[0].committer.name }}"
           git checkout ${{ env.targetBaseBranch }}
