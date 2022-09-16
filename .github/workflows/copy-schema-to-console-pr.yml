@@ -43,8 +43,8 @@ jobs:
           
           git status
 
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "${{ github.event.commits[0].committer.email }}"
+          git config --local user.name "${{ github.event.commits[0].committer.name }}"
           git checkout ${{ env.targetBaseBranch }}
 
           git checkout -b "${{ github.ref_name }}_${{ github.run_number }}"
