@@ -4,6 +4,7 @@ env:
   fileName: "file"
   targetRepo: "mivanyna/repob"
   targetPathToFile: "folderb"
+  filename: "${{ env.fileName }}_${{ github.sha }}"
 
 on:
   push:
