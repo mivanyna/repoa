@@ -29,8 +29,7 @@ jobs:
       - name: Copy config to cms and create PR
         run: |
           echo "pull target repository"
-          # https://$DESTINATION_REPOSITORY_USERNAME:$API_TOKEN_GITHUB@$GITHUB_SERVER/$DESTINATION_REPOSITORY_USERNAME/$DESTINATION_REPOSITORY_NAME.git
-          
+
           git clone https://mivanyna:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.targetRepo }}.git target
           rm target/${{ env.targetPathToFile }}/${{ env.fileName }}*.json
           
