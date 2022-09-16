@@ -2,7 +2,8 @@ name: Copy app config schema
 env:
   targetBaseBranch: "main"
   fileName: "file"
-  targetRepo: "mivanyna/repob"
+  targetRepo: "repob"
+  targetUserName: "mivanyna"
   targetPathToFile: "folderb"
 
 on:
@@ -27,7 +28,7 @@ jobs:
         run: |
           echo "pull target repository"
 
-          git clone https://mivanyna:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{ env.targetRepo }}.git target
+          git clone https://${{ env.targetUserName }}:${{ secrets.API_TOKEN_GITHUB }}@github.com/${{targetUserName}}/${{ env.targetRepo }}.git target
           rm target/${{ env.targetPathToFile }}/${{ env.fileName }}*.json
           
           echo "copy and rename file to target folder"
