@@ -46,6 +46,7 @@ jobs:
 
       - name: Init user and push changed files
         run: |     
+          cd target
           git status
 
           git config --local user.email "${{ github.event.commits[0].committer.email }}"
@@ -61,6 +62,7 @@ jobs:
           echo "create PR"
       - name: Create PR
         run: |
+          cd target
           gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
