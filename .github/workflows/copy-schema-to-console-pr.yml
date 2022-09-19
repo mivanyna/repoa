@@ -8,6 +8,8 @@ env:
 
 on:
   push:
+    paths:
+      - 'file.json'
     branches: [ "main" ]
 permissions:
   contents: write
