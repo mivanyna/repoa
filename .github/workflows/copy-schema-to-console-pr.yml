@@ -8,8 +8,6 @@ env:
 
 on:
   push:
-    paths:
-      - 'file.json'
     branches: [ "main" ]
 permissions:
   contents: write
@@ -26,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Copy config to cms and create PR
+      - name: Clone target repo
         run: |
           echo "pull target repository"
 
@@ -34,15 +32,20 @@ jobs:
           rm target/${{ env.targetPathToFile }}/${{ env.fileName }}*.json
           
           echo "copy and rename file to target folder"
-          
+      - name: Copy and rename file
+        run: |   
           cp "${{ env.fileName }}.json" "./target/${{ env.targetPathToFile }}/${{ env.fileName }}_${{ github.sha }}.json"
 
+      - name: Update usage file
+        run: |
           cd target
           
           echo "update schema export file"
           printf "const file = require('./${{ env.fileName }}_${{ github.sha }}.json')
           export default file\n" > ${{ env.targetPathToFile }}/json.ts
-          
+
+      - name: Init user and push changed files
+        run: |     
           git status
 
           git config --local user.email "${{ github.event.commits[0].committer.email }}"
@@ -56,6 +59,8 @@ jobs:
            echo "push changes"
           git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
           echo "create PR"
+      - name: Create PR
+        run: |
           gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
