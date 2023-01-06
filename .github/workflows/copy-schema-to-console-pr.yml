@@ -60,7 +60,6 @@ jobs:
           git add .
           git diff-index --quiet HEAD || git commit -m "Automatic copy app config schema"          
            echo "push changes"
-          git push -u origin "${{ github.ref_name }}_${{ github.run_number }}"
           echo "create PR"
       - name: Create PR
         run: |
