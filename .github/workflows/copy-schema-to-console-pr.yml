@@ -63,6 +63,8 @@ jobs:
         run: |
           gh pr list -s merged -S '${{github.sha}}'
           echo "gh pr list -s merged -S '${{github.sha}}'"
+        env:
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
       - name: Create PR
         run: |
           cd target
