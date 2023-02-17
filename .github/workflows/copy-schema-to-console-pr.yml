@@ -62,6 +62,7 @@ jobs:
       - name:  PR url
         run: |
           prUrl = $gh pr list -s merged -S "${{github.sha}}"
+          eccho prUrl
           echo 'PR_URL='$prUrl >> $GITHUB_ENV
       - name: Create PR
         run: |
