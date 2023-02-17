@@ -65,6 +65,7 @@ jobs:
         run: |
           cd target
           echo "Created by Github action\n${{github.event.commits[0].url}}"
+          echo gh pr list -s merged -S "${{github.sha}}"
           gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body "Created by Github action\n${{github.event.commits[0].url}}"
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
