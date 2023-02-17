@@ -70,7 +70,7 @@ jobs:
         run: |
           cd target
           echo "$PR_URL"
-          echo "${{envPR_URL}}"
+          echo "${{env.PR_URL}}"
           echo "Created by Github action\n${{github.event.commits[0].url}}"
           gh pr list -s merged -S "${{github.sha}}"
           echo "gh pr list -s merged -S "${{github.sha}}"
