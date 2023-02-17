@@ -62,7 +62,7 @@ jobs:
       - name:  PR url
         run: |
           git config --local user.email "${{ github.event.commits[0].committer.email }}"
-          git config --local user.name "${{ github.event.commits[0].committer.name }}
+          git config --local user.name "${{ github.event.commits[0].committer.name }}"
           gh pr list -s merged -S '${{github.sha}}'
           echo "gh pr list -s merged -S '${{github.sha}}'"
         env:
