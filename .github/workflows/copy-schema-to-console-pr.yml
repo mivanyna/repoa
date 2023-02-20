@@ -59,13 +59,6 @@ jobs:
           git diff-index --quiet HEAD || git commit -m "Automatic copy app config schema"          
            echo "push changes"
           echo "create PR"
-      - name:  PR url
-        run: |
-          cd target
-          gh pr list -s merged -S '${{github.sha}}'
-          echo "gh pr list -s merged -S '${{github.sha}}'"
-        env:
-          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
       - name: Create PR
         run: |
           cd target
@@ -74,7 +67,7 @@ jobs:
           echo "Created by Github action\n${{github.event.commits[0].url}}"
           gh pr list -s merged -S "${{github.sha}}"
           echo "gh pr list -s merged -S "${{github.sha}}"
-          gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body "Created by Github action\n${{github.event.commits[0].url}}"
+          gh pr create -B "${{ env.targetBaseBranch }}" -H "${{ github.ref_name }}_${{ github.run_number }}" --title "${{ github.event.commits[0].message }}" --body "Created by Github action\n${{github.event.commits[0].url}} \n https://github.com/search?q=${{github.sha}}+is%3Amerged&type=Issues"
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
       
